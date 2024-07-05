@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情緒字彙選取轉盤</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #fff0f5, #e6f3ff);
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 2rem;
+        }
+        .wheel {
+            width: 100%;
+            height: 100%;
+            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .emotion {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3.5rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        button {
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(to right, #ff8a8a, #f9c0b4);
+            transform: scale(1.05);
+        }
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>情緒字彙選取轉盤</h1>
+        <div class="wheel-container">
+            <svg class="wheel" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="#FFB3BA" />
+                <circle cx="50" cy="50" r="42" fill="white" />
+                <circle cx="50" cy="50" r="38" fill="#BAFFC9" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" transform="rotate(45 50 50)" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" transform="rotate(90 50 50)" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" transform="rotate(135 50 50)" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" transform="rotate(180 50 50)" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" transform="rotate(225 50 50)" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" transform="rotate(270 50 50)" />
+                <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2" transform="rotate(315 50 50)" />
+            </svg>
+            <div class="emotion" id="emotionDisplay"></div>
+        </div>
+        <button onclick="spinWheel()" id="spinButton">轉動情緒轉盤</button>
+    </div>
+
+    <script>
+        const emotions = [
+            { word: '喜悅', type: 'positive' },
+            { word: '憤怒', type: 'negative' },
+            { word: '悲傷', type: 'negative' },
+            { word: '驚喜', type: 'positive' },
+            { word: '恐懼', type: 'negative' },
+            { word: '滿足', type: 'positive' },
+            { word: '焦慮', type: 'negative' },
+            { word: '興奮', type: 'positive' },
+            { word: '失望', type: 'negative' },
+            { word: '感激', type: 'positive' },
+            { word: '嫉妒', type: 'negative' },
+            { word: '平靜', type: 'positive' },
+            { word: '困惑', type: 'negative' },
+            { word: '自信', type: 'positive' },
+            { word: '羞愧', type: 'negative' },
+        ];
+
+        let rotation = 0;
+
+        function spinWheel() {
+            const wheel = document.querySelector('.wheel');
+            const emotionDisplay = document.getElementById('emotionDisplay');
+            const spinButton = document.getElementById('spinButton');
+
+            spinButton.disabled = true;
+            emotionDisplay.style.opacity = '0';
+            
+            rotation += 1440 + Math.random() * 360;
+            wheel.style.transform = `rotate(${rotation}deg)`;
+
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * emotions.length);
+                const selectedEmotion = emotions[randomIndex];
+                emotionDisplay.textContent = selectedEmotion.word;
+                emotionDisplay.style.color = selectedEmotion.type === 'positive' ? '#4CAF50' : '#F44336';
+                emotionDisplay.style.opacity = '1';
+                spinButton.disabled = false;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
